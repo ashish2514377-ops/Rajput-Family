@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rajput Family | Legacy & Heritage</title>
+  <meta name="description" content="Discover the history, interact with the dynamic family tree, browse photos, and follow upcoming events of the noble Rajput Family.">
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- --- Navbar --- -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <a href="#" class="logo" id="logo">Rajput<span>Family</span></a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#members" class="nav-link">Members</a></li>
+        <li><a href="#tree" class="nav-link">Family Tree</a></li>
+        <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="#events" class="nav-link">Events</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="admin.html" class="nav-link" style="color: var(--accent);"><i class="fa-solid fa-lock" style="margin-right: 5px;"></i>Admin Panel</a></li>
+      </ul>
+      
+      <div class="controls">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
+          <i class="fa-solid fa-sun" id="theme-icon"></i>
+        </button>
+        <button class="icon-btn mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- --- Hero Banner Section --- -->
+  <header class="hero" id="home">
+    <div class="hero-bg" id="hero-bg-div"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title" id="dyn-hero-title">The <span>Rajput</span> Family</h1>
+      <p class="hero-subtitle" id="dyn-hero-subtitle">"Honoring our timeless legacy, embracing a brilliant future."</p>
+      <div class="hero-actions">
+        <a href="#tree" class="btn btn-primary"><i class="fa-solid fa-sitemap"></i> View Family Tree</a>
+        <a href="#gallery" class="btn btn-secondary"><i class="fa-solid fa-images"></i> Explore Gallery</a>
+      </div>
+    </div>
+    <a href="#about" class="scroll-indicator" aria-label="Scroll Down">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+    </a>
+  </header>
+
+  <!-- --- News & Updates Banner --- -->
+  <div class="container" style="margin-top: -30px; position: relative; z-index: 10;">
+    <div class="news-container">
+      <div class="news-badge"><i class="fa-solid fa-bullhorn"></i> Family Updates</div>
+      <div class="news-marquee">
+        <p id="news-ticker-text">Welcome to the Rajput Family Portal. Check the upcoming events and our lineage tree below! Pranam!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- About Family Section --- -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">Legacy & Lineage</h2>
+      <p class="section-subtitle">Our journey through history, documenting noble contributions, achievements, and family roots.</p>
+      
+      <div class="about-layout">
+        <div class="about-img-box">
+          <img id="dyn-about-img" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=600&auto=format&fit=crop" alt="Rajput Family Group Photo">
+        </div>
+        <div class="about-content">
+          <h3 id="dyn-about-title">A Legacy of Honor & Valor</h3>
+          <p class="about-text" id="dyn-about-intro">For generations, the Rajput family has stood as a beacon of rich heritage, noble values, and cultural excellence in Rajasthan. From historical roots of chivalry to modern achievements in social advocate groups, technologies, and art, we carry our ancestors' virtues with pride.</p>
+          <p class="about-text" id="dyn-about-history">Our lineage traces back to the royal clans of Mewar, known for their unwavering courage, artistic patronage, and deep love for the motherland. Today, we preserve this history by maintaining family historical havelis, supporting local artisans, and building paths for the generations to come.</p>
+          
+          <div class="about-stats">
+            <div class="about-stat-item">
+              <div class="about-stat-num" id="stat-gen-count">3+</div>
+              <div class="about-stat-label">Generations Mapped</div>
+            </div>
+            <div class="about-stat-item">
+              <div class="about-stat-num" id="stat-mem-count">6+</div>
+              <div class="about-stat-label">Active Members</div>
+            </div>
+            <div class="about-stat-item">
+              <div class="about-stat-num" id="stat-photo-count">10+</div>
+              <div class="about-stat-label">Archive Photos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Family Members Section --- -->
+  <section class="section" id="members" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass);">
+    <div class="container">
+      <h2 class="section-title">Family Members</h2>
+      <p class="section-subtitle">Meet the family. Each member contributes to our lineage, keeping traditions alive and mapping new horizons.</p>
+      
+      <div class="members-search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="member-search-input" placeholder="Search family members by name, relation, role or bio...">
+      </div>
+      
+      <div class="members-grid" id="members-grid">
+        <!-- Rendered dynamically -->
+        <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">
+          <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+          <p style="margin-top: 15px;">Loading family legacy...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Family Tree Section --- -->
+  <section class="section" id="tree">
+    <div class="container">
+      <h2 class="section-title">Interactive Family Tree</h2>
+      <p class="section-subtitle">A visual representation of our lineage. Select nodes to trace relations and generations.</p>
+      
+      <div class="tree-outer">
+        <div class="tree-container" id="tree-container">
+          <!-- Rendered dynamically -->
+          <div style="text-align: center; color: var(--text-muted); padding: 40px;">
+            <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+            <p style="margin-top: 15px;">Mapping relationships...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Family Gallery Section --- -->
+  <section class="section" id="gallery" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass);">
+    <div class="container">
+      <h2 class="section-title">Photo Gallery</h2>
+      <p class="section-subtitle">A collective chronicle of our memories, travels, heritage landmarks, and special gatherings.</p>
+      
+      <div class="gallery-controls">
+        <div class="gallery-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="gallery-search-input" placeholder="Search photos by title, tag, or description...">
+        </div>
+        
+        <div class="album-switcher" id="album-switcher-container">
+          <!-- Albums rendered dynamically -->
+        </div>
+      </div>
+      
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Photos/Albums rendered dynamically -->
+        <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">
+          <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+          <p style="margin-top: 15px;">Unlocking memories...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Events Section --- -->
+  <section class="section" id="events">
+    <div class="container">
+      <h2 class="section-title">Family Calendar & Events</h2>
+      <p class="section-subtitle">Keep up with birthdays, marriage anniversaries, family functions, and upcoming get-togethers.</p>
+      
+      <div class="events-section-container">
+        <!-- Timeline Cards -->
+        <div class="events-timeline" id="events-timeline-container">
+          <!-- Rendered dynamically -->
+        </div>
+        
+        <!-- Calendar Grid Card -->
+        <div class="glass-card calendar-widget">
+          <div class="calendar-header">
+            <button class="icon-btn" id="cal-prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="calendar-month-title" id="cal-month-title">June 2026</div>
+            <button class="icon-btn" id="cal-next-month"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="calendar-grid-days">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+          </div>
+          <div class="calendar-grid-cells" id="calendar-cells-container">
+            <!-- Calendar days rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Contact & Location Section --- -->
+  <section class="section" id="contact" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-glass);">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-subtitle">Reach out to the family administrators, leave a message, or find directions to our heritage house.</p>
+      
+      <div class="contact-layout">
+        <!-- Info Cards -->
+        <div class="contact-info">
+          <div class="glass-card contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <div class="contact-text">
+              <h3>Phone Numbers</h3>
+              <p><a href="tel:+919876543210" id="dyn-phone1">+91 98765 43210</a></p>
+              <p><a href="tel:+912942426789" id="dyn-phone2">+91 (294) 242 6789</a></p>
+            </div>
+          </div>
+          
+          <div class="glass-card contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="contact-text">
+              <h3>Family Residence</h3>
+              <p id="dyn-address">Rajput Heritage Haveli, City Palace Road, Udaipur, Rajasthan - 313001, India</p>
+            </div>
+          </div>
+          
+          <div class="glass-card contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="contact-text">
+              <h3>Email Addresses</h3>
+              <p><a href="mailto:info@rajputfamily.com" id="dyn-email1">info@rajputfamily.com</a></p>
+              <p><a href="mailto:admin@rajputfamily.com" id="dyn-email2">admin@rajputfamily.com</a></p>
+            </div>
+          </div>
+          
+          <div style="text-align: center;">
+            <a href="#" class="btn btn-primary" id="whatsapp-btn" style="background-color: #25d366; border-color: #25d366; color: white;" target="_blank">
+              <i class="fa-brands fa-whatsapp fa-xl"></i> Chat on WhatsApp
+            </a>
+          </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="glass-card contact-form-card">
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" class="form-control" placeholder="What is this regarding?" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" class="form-control" placeholder="Type your message here..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Responsive Map -->
+      <div class="glass-card map-card">
+        <iframe 
+          id="dyn-map-iframe"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.79093836791!2d73.68112007604584!3d24.575727978116568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967e564d6dbdb3d%3A0xe54d90f23b7ff496!2sThe%20City%20Palace!5e0!3m2!1sen!2sin!4v1718610000000!5m2!1sen!2sin" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade"
+          aria-label="Google Map location of Rajput Family Residence">
+        </iframe>
+        <a href="https://maps.google.com" target="_blank" class="btn btn-primary map-directions-btn" id="dyn-map-directions">
+          <i class="fa-solid fa-diamond-turn-right"></i> Get Directions
+        </a>
+      </div>
+      
+      <div style="text-align: center; margin-top: 30px;">
+        <div class="visitor-counter-box">
+          <i class="fa-solid fa-eye"></i> Portal Visitors: <span id="visitor-count-span">0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Footer --- -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-layout">
+        <div class="footer-info">
+          <h2 class="footer-logo">Rajput<span>Family</span></h2>
+          <p class="footer-description">Preserving our rich heritage, capturing historical milestones, and documenting the lineage of the Rajput family.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-link-group">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About Legacy</a></li>
+              <li><a href="#members">Members</a></li>
+              <li><a href="#tree">Lineage Tree</a></li>
+              <li><a href="#gallery">Gallery</a></li>
+              <li><a href="#events">Events</a></li>
+            </ul>
+          </div>
+          <div class="footer-link-group">
+            <h3>Governance</h3>
+            <ul>
+              <li><a href="admin.html"><i class="fa-solid fa-user-shield" style="margin-right: 5px;"></i>Admin Dashboard</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 Rajput Family. All rights reserved. Made with pride and honor.</p>
+        <div class="footer-socials">
+          <a href="#" class="icon-btn" id="footer-fb-link" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="icon-btn" id="footer-tw-link" target="_blank" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="icon-btn" id="footer-ig-link" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- Password Prompt Dialog --- -->
+  <div class="modal-overlay" id="gallery-password-modal">
+    <div class="glass-card modal-card" style="max-width: 420px; text-align: center;">
+      <div class="locked-icon-wrapper" style="margin: 0 auto 20px;">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <h3 style="margin-bottom: 10px;">Enter Album Password</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem;">This folder is password protected. Please authenticate to view the contents.</p>
+      
+      <form id="album-password-form">
+        <input type="hidden" id="locked-album-id">
+        <div class="form-group">
+          <input type="password" id="album-passcode-input" class="form-control" placeholder="Enter album password" required style="text-align: center;">
+        </div>
+        <div id="album-password-error" style="color: var(--danger); font-size: 0.85rem; margin-bottom: 15px; display: none;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Incorrect album password.
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button type="button" class="btn btn-secondary" id="album-pass-close-btn" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Unlock</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- --- Lightbox Modal --- -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-btn lightbox-prev" id="lightbox-prev" aria-label="Previous image">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="lightbox-btn lightbox-next" id="lightbox-next" aria-label="Next image">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    
+    <div class="lightbox-content">
+      <span class="lightbox-close" id="lightbox-close"><i class="fa-solid fa-xmark"></i></span>
+      <img src="" alt="" class="lightbox-img" id="lightbox-img">
+      <div class="lightbox-caption" id="lightbox-caption">
+        <h3 id="lightbox-title"></h3>
+        <p id="lightbox-desc"></p>
+        <div class="lightbox-actions">
+          <a href="" download="" class="btn btn-primary btn-sm" id="lightbox-download-btn" style="padding: 6px 16px; font-size: 0.85rem;">
+            <i class="fa-solid fa-download"></i> Download Photo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

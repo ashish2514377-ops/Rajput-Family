@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Rajput Family Portal</title>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- --- 1. Login Page (Displayed if not authenticated) --- -->
+  <div class="admin-login-body" id="admin-login-section">
+    <div class="glass-card login-card">
+      <div class="login-header">
+        <a href="index.html" class="logo">Rajput<span>Family</span></a>
+        <h1 style="margin-top: 15px;">Admin Login</h1>
+        <p>Authenticate to manage family profiles and photos</p>
+      </div>
+      
+      <form id="login-form">
+        <div class="form-group" style="text-align: left;">
+          <label for="login-username">Admin Username / Email</label>
+          <input type="text" id="login-username" class="form-control" placeholder="Enter username or email" required>
+        </div>
+        
+        <div class="form-group" style="text-align: left;">
+          <label for="login-password">Security Passcode / Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter passcode" required>
+        </div>
+        
+        <div id="login-error-msg" style="color: #ef4444; margin-bottom: 20px; font-size: 0.9rem; display: none;">
+          <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i> Invalid passcode or login details.
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-right-to-bracket"></i> Authenticate</button>
+      </form>
+      
+      <div style="margin-top: 25px; font-size: 0.8rem; color: var(--text-muted);">
+        <i class="fa-solid fa-circle-info" style="margin-right: 4px;"></i> For Local Demo mode, use username: <strong>admin</strong> and passcode: <strong>rajput123</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- 2. Admin Dashboard Layout (Displayed after successful authentication) --- -->
+  <div class="admin-dashboard-container" id="admin-dashboard-section" style="display: none;">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-logo">Rajput<span>Admin</span></div>
+      
+      <nav class="admin-nav">
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link active" data-tab="tab-overview">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Overview</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link" data-tab="tab-members">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Manage Members</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link" data-tab="tab-gallery">
+            <i class="fa-solid fa-images"></i>
+            <span>Manage Gallery</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link" data-tab="tab-tree">
+            <i class="fa-solid fa-sitemap"></i>
+            <span>Manage Lineage</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link" data-tab="tab-events">
+            <i class="fa-regular fa-calendar-check"></i>
+            <span>Manage Events</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link" data-tab="tab-homepage">
+            <i class="fa-solid fa-house-laptop"></i>
+            <span>Homepage Editor</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="#" class="admin-nav-link" data-tab="tab-settings">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Portal Settings</span>
+          </a>
+        </li>
+      </nav>
+      
+      <div class="admin-sidebar-footer">
+        <a href="index.html" class="admin-nav-link" style="margin-bottom: 10px;">
+          <i class="fa-solid fa-arrow-left-long"></i>
+          <span>Public Website</span>
+        </a>
+        <a href="#" class="admin-nav-link" id="logout-btn" style="color: #ef4444;">
+          <i class="fa-solid fa-power-off"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Top header bar -->
+      <header class="admin-header">
+        <div>
+          <h1>Rajput Family Control Panel</h1>
+          <p style="color: var(--text-secondary);" id="admin-welcome-text">Welcome, Admin</p>
+        </div>
+        <div id="db-status-badge">
+          <!-- Populated by JS -->
+          <span class="status-badge status-local"><i class="fa-solid fa-triangle-exclamation"></i> Local Demo Mode</span>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW PANEL -->
+      <section class="dashboard-tab active" id="tab-overview">
+        <div class="admin-stats">
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+            <div>
+              <div class="stat-val" id="stat-members-count">0</div>
+              <div class="stat-label">Family Members</div>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-image"></i></div>
+            <div>
+              <div class="stat-val" id="stat-photos-count">0</div>
+              <div class="stat-label">Gallery Images</div>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-sitemap"></i></div>
+            <div>
+              <div class="stat-val" id="stat-tree-count">0</div>
+              <div class="stat-label">Tree Links</div>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-eye"></i></div>
+            <div>
+              <div class="stat-val" id="stat-visitors-count">0</div>
+              <div class="stat-label">Portal Visitors</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Message Box -->
+        <div class="glass-card" style="margin-bottom: 40px;">
+          <h3 style="margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-database"></i> Database Connections</h3>
+          <p style="margin-bottom: 20px;">By default, the platform is running in <strong>Local Storage Demo Mode</strong>. Any changes you make (adding members, uploading photos, linking spouses, etc.) will be stored securely inside your browser's local cache. This allows immediate previewing without any external dependencies.</p>
+          
+          <div style="background: rgba(var(--accent-rgb), 0.05); border: 1px solid var(--border-glass); padding: 20px; border-radius: 8px;">
+            <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-cloud-arrow-up"></i> Dynamic Adapters Support</h4>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 15px;">The Rajput Family portal automatically connects to the server REST endpoints when hosted via Node.js Express & MongoDB. It also supports Firebase Firestore. Feel free to fill in configurations or host the node app to try it!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: MANAGE MEMBERS PANEL -->
+      <section class="dashboard-tab" id="tab-members">
+        <div class="tab-header-actions">
+          <h2 class="tab-title">Family Member Profiles</h2>
+          <button class="btn btn-primary" id="add-member-btn"><i class="fa-solid fa-user-plus"></i> Add Family Member</button>
+        </div>
+        
+        <div class="glass-card">
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Full Name</th>
+                  <th>Relationship Node</th>
+                  <th>Role / Occupation</th>
+                  <th>Biography</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-members-tbody">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: MANAGE GALLERY PANEL -->
+      <section class="dashboard-tab" id="tab-gallery">
+        <div class="tab-header-actions">
+          <h2 class="tab-title">Gallery & Albums</h2>
+          <div style="display: flex; gap: 15px;">
+            <button class="btn btn-secondary" id="add-album-btn"><i class="fa-solid fa-folder-plus"></i> Create Album</button>
+            <button class="btn btn-primary" id="add-photo-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo</button>
+          </div>
+        </div>
+        
+        <!-- Albums List -->
+        <div class="glass-card" style="margin-bottom: 40px;">
+          <h3 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-folder"></i> Managed Photo Albums</h3>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Album Name</th>
+                  <th>Folder ID</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-albums-tbody">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Photos Grid List -->
+        <div class="glass-card">
+          <h3 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-images"></i> Managed Photos</h3>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Album / Category</th>
+                  <th>Date Recorded</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-photos-tbody">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: MANAGE TREE PANEL -->
+      <section class="dashboard-tab" id="tab-tree">
+        <div class="tab-header-actions">
+          <h2 class="tab-title">Relationship Mapper (Family Tree)</h2>
+        </div>
+
+        <div class="relation-editor-grid">
+          <!-- 1. Link Spouses Form -->
+          <div class="glass-card relation-group">
+            <h4><i class="fa-solid fa-heart" style="color: #ef4444; margin-right: 5px;"></i> Link Spouses</h4>
+            <form id="link-spouses-form">
+              <div class="form-group">
+                <label for="spouse1-select">Partner 1</label>
+                <select id="spouse1-select" class="form-control" required></select>
+              </div>
+              <div class="form-group">
+                <label for="spouse2-select">Partner 2</label>
+                <select id="spouse2-select" class="form-control" required></select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"><i class="fa-solid fa-link"></i> Link Spouses</button>
+            </form>
+          </div>
+
+          <!-- 2. Link Parent-Child Form -->
+          <div class="glass-card relation-group">
+            <h4><i class="fa-solid fa-child" style="margin-right: 5px;"></i> Link Parent-Child</h4>
+            <form id="link-child-form">
+              <div class="form-group">
+                <label for="parent-select">Parent Node</label>
+                <select id="parent-select" class="form-control" required></select>
+              </div>
+              <div class="form-group">
+                <label for="child-select">Child Node</label>
+                <select id="child-select" class="form-control" required></select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"><i class="fa-solid fa-link"></i> Link Child</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 3. Current Links Lists -->
+        <div class="glass-card" style="margin-bottom: 30px;">
+          <h4 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-heart-crack"></i> Spouse Connections</h4>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Partner 1</th>
+                  <th>Partner 2</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="spouses-links-tbody">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <h4 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-network-wired"></i> Parent-Child Links</h4>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Parent</th>
+                  <th>Child</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="children-links-tbody">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: MANAGE EVENTS PANEL -->
+      <section class="dashboard-tab" id="tab-events">
+        <div class="tab-header-actions">
+          <h2 class="tab-title">Family Calendar & Scheduler</h2>
+          <button class="btn btn-primary" id="add-event-btn"><i class="fa-solid fa-calendar-plus"></i> Schedule Event</button>
+        </div>
+        
+        <div class="glass-card">
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Event Title</th>
+                  <th>Category</th>
+                  <th>Scheduled Date</th>
+                  <th>Details & Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-events-tbody">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: HOMEPAGE CONTENT EDITOR -->
+      <section class="dashboard-tab" id="tab-homepage">
+        <div class="tab-header-actions">
+          <h2 class="tab-title">Homepage Content Editor</h2>
+        </div>
+
+        <div class="glass-card">
+          <form id="homepage-content-form">
+            <div class="settings-form-grid">
+              
+              <!-- Left: Headers and About Section -->
+              <div class="settings-panel-section">
+                <h3>About Section Text & Banners</h3>
+                
+                <div class="form-group">
+                  <label for="settings-banner-title">Main Portal Header Title</label>
+                  <input type="text" id="settings-banner-title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="settings-banner-subtitle">Banner Subtitle / Moto</label>
+                  <input type="text" id="settings-banner-subtitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="settings-about-title">About Family Title</label>
+                  <input type="text" id="settings-about-title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="settings-about-intro">Family Introduction Paragraph</label>
+                  <textarea id="settings-about-intro" rows="3" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="settings-about-history">Family Lineage & Achievements History</label>
+                  <textarea id="settings-about-history" rows="4" class="form-control" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label>Group Photo / Banner Image URL</label>
+                  <div class="image-preview-box" id="group-image-preview-box">
+                    <i class="fa-solid fa-cloud-arrow-up fa-2xl" style="margin-bottom: 15px;"></i>
+                    <span>Click to change Group/Hero image</span>
+                    <img src="" id="group-image-preview" style="display: none;" alt="Preview">
+                  </div>
+                  <input type="file" id="group-photo-input" class="file-input" accept="image/*">
+                  <input type="hidden" id="settings-group-photo-url">
+                </div>
+              </div>
+
+              <!-- Right: Address and Contacts -->
+              <div class="settings-panel-section">
+                <h3>Contact Information & Map</h3>
+                
+                <div class="form-group">
+                  <label for="settings-phone1">Contact Number 1 (Primary / WhatsApp)</label>
+                  <input type="text" id="settings-phone1" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="settings-phone2">Contact Number 2 (Alternative)</label>
+                  <input type="text" id="settings-phone2" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="settings-email1">Admin Email Address 1</label>
+                  <input type="email" id="settings-email1" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="settings-email2">Admin Email Address 2</label>
+                  <input type="email" id="settings-email2" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="settings-residence">Physical Haveli / Residence Address</label>
+                  <textarea id="settings-residence" rows="3" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="settings-map-embed">Google Maps Embed Iframe URL</label>
+                  <input type="text" id="settings-map-embed" class="form-control" required placeholder="Paste iframe src parameter...">
+                </div>
+                
+                <h3>Social Profiles</h3>
+                <div class="form-group">
+                  <label for="settings-fb"><i class="fa-brands fa-facebook"></i> Facebook Profile Link</label>
+                  <input type="text" id="settings-fb" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="settings-tw"><i class="fa-brands fa-twitter"></i> Twitter Profile Link</label>
+                  <input type="text" id="settings-tw" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="settings-ig"><i class="fa-brands fa-instagram"></i> Instagram Profile Link</label>
+                  <input type="text" id="settings-ig" class="form-control">
+                </div>
+              </div>
+              
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 30px; width: 100%;"><i class="fa-solid fa-floppy-disk"></i> Save Content Configurations</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB 7: PORTAL SETTINGS -->
+      <section class="dashboard-tab" id="tab-settings">
+        <div class="tab-header-actions">
+          <h2 class="tab-title">Portal Settings & Protection</h2>
+        </div>
+
+        <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+          <form id="portal-settings-form">
+            <h3 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;">Gallery Access Restrictions</h3>
+            
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+              <div>
+                <label style="margin-bottom: 4px;">Enable Gallery Password Protection</label>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Require password to view private albums</p>
+              </div>
+              <input type="checkbox" id="settings-lock-toggle" style="width: 24px; height: 24px; cursor: pointer; accent-color: var(--accent);">
+            </div>
+
+            <div class="form-group">
+              <label for="settings-lock-password">Gallery Folders Authorization Password</label>
+              <input type="password" id="settings-lock-password" class="form-control" placeholder="Change authentication password">
+            </div>
+
+            <h3 style="color: var(--accent); margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;">Traffic Controls</h3>
+            <div class="form-group">
+              <label for="settings-visitor-counter">Adjust Visitor Counter Cache</label>
+              <input type="number" id="settings-visitor-counter" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 35px; width: 100%;"><i class="fa-solid fa-circle-check"></i> Sync Portal Settings</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- --- 3. Modals Overlay Section --- -->
+
+  <!-- A. Add/Edit Member Modal -->
+  <div class="modal-overlay" id="member-modal">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="member-modal-title">Add Family Member</h3>
+        <button class="modal-close" id="member-modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <form id="member-form">
+        <input type="hidden" id="member-id">
+        
+        <div class="form-group">
+          <label>Profile Picture</label>
+          <div class="image-preview-box" id="member-image-preview-box">
+            <i class="fa-solid fa-cloud-arrow-up fa-2xl" style="margin-bottom: 15px;"></i>
+            <span>Click to upload profile photo</span>
+            <img src="" id="member-image-preview" style="display: none;" alt="Preview">
+          </div>
+          <input type="file" id="member-photo-input" class="file-input" accept="image/*">
+        </div>
+        
+        <div class="form-group">
+          <label for="member-name-input">Full Name</label>
+          <input type="text" id="member-name-input" class="form-control" placeholder="E.g., Kunwar Vikram Singh" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="member-relation-select">Relationship Node</label>
+          <select id="member-relation-select" class="form-control" required>
+            <option value="Grandparent">Grandparent (Generation 1)</option>
+            <option value="Parent">Parent (Generation 2)</option>
+            <option value="Child">Child (Generation 3)</option>
+            <option value="Other">Extended Family Member</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="member-role-input">Role / Title / Occupation</label>
+          <input type="text" id="member-role-input" class="form-control" placeholder="E.g., Patriarch, Software Engineer" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="member-bio-input">Biography / Short Summary</label>
+          <textarea id="member-bio-input" rows="4" class="form-control" placeholder="Describe the member's profile and life summary..." required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-floppy-disk"></i> Save Member Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- B. Create Album Modal -->
+  <div class="modal-overlay" id="album-modal">
+    <div class="glass-card modal-card" style="max-width: 450px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Photo Album</h3>
+        <button class="modal-close" id="album-modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <form id="album-form">
+        <div class="form-group">
+          <label for="album-name-input">Album Name</label>
+          <input type="text" id="album-name-input" class="form-control" placeholder="E.g., Heritage, Celebrations" required>
+        </div>
+        <div class="form-group">
+          <label for="album-desc-input">Album Description</label>
+          <input type="text" id="album-desc-input" class="form-control" placeholder="Describe the photo album" required>
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; margin-top: 15px;">
+          <div>
+            <label style="margin: 0;">Password Protected</label>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">Requires password authentication</p>
+          </div>
+          <input type="checkbox" id="album-lock-input" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 25px;"><i class="fa-solid fa-folder-plus"></i> Create Album</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- C. Upload Photo Gallery Modal -->
+  <div class="modal-overlay" id="photo-modal">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Upload Gallery Photo</h3>
+        <button class="modal-close" id="photo-modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <form id="photo-form">
+        <div class="form-group">
+          <label>Choose Image</label>
+          <div class="image-preview-box" id="photo-image-preview-box">
+            <i class="fa-solid fa-cloud-arrow-up fa-2xl" style="margin-bottom: 15px;"></i>
+            <span>Click to upload memory photo</span>
+            <img src="" id="photo-image-preview" style="display: none;" alt="Preview">
+          </div>
+          <input type="file" id="photo-file-input" class="file-input" accept="image/*" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="photo-title-input">Photo Title</label>
+          <input type="text" id="photo-title-input" class="form-control" placeholder="E.g., Diwali Celebrations 2025" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="photo-category-select">Album / Category</label>
+          <select id="photo-category-select" class="form-control" required>
+            <!-- Rendered dynamically -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="photo-date-input">Date Captured</label>
+          <input type="date" id="photo-date-input" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="photo-desc-input">Short Description</label>
+          <textarea id="photo-desc-input" rows="3" class="form-control" placeholder="Describe the photo memory..." required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- D. Schedule Event Modal -->
+  <div class="modal-overlay" id="event-modal">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="event-modal-title">Schedule Family Event</h3>
+        <button class="modal-close" id="event-modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <form id="event-form">
+        <input type="hidden" id="event-id">
+        
+        <div class="form-group">
+          <label for="event-title-input">Event Title</label>
+          <input type="text" id="event-title-input" class="form-control" placeholder="E.g., Devika's Birthday Celebration" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="event-category-select">Event Category</label>
+          <select id="event-category-select" class="form-control" required>
+            <option value="birthday">Birthday</option>
+            <option value="anniversary">Anniversary</option>
+            <option value="function">Family Function</option>
+            <option value="other">Other Upcoming Event</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="event-date-input">Scheduled Date</label>
+          <input type="date" id="event-date-input" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="event-desc-input">Details / Invitation Description</label>
+          <textarea id="event-desc-input" rows="4" class="form-control" placeholder="Specify time, location details, or plans..." required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-calendar-check"></i> Save Event Details</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Script Modules -->
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
